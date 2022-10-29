@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice with jQuery Events</title>
+    <link href="styles1/normalize.css" type="text/css" rel="stylesheet">
+    <script src="scripts1/jquery.js"></script>
+    <script>
+        $(function(){
+            //window.alert("Jquery is working");
+
+            //click method
+            $("#mybutton1").click(function(){
+                window.alert("Button has been clicked");
+            });
+
+            //bind method
+            $("#mybutton2").bind("click",function(){
+                window.alert("Button has been clicked");
+            });
+
+            //on method
+            $("#mybutton3").on("click",function(){
+                window.alert("Button has been clicked");
+            });
+
+            //two button with on method
+            $("section").on({click:function(event){
+                window.alert("Button has been clicked");}
+            },"button");
+
+            //mouse events displaying in console
+            $("div").on("mouseenter mouseleave click",function()
+            {window.console.log("the div was either clicked on, the mouse entered it, or the mouse left it.");
+            });
+
+            //mouse events displaying in span tag
+            $("#divid").on({
+            mouseenter:function()
+            {//window.console.log("User enters the div.");
+            $("#events").append("<br>User enters the div/cursor on the div area");},
+            mouseleave:function()
+            {//window.console.log("User leaves the div.");
+            $("#events").append("<br>User leaves the div/cursor left the div area");},
+            click:function()
+            {//window.console.log("User clicked the div.");
+            $("#events").append("<br>User clicks on the div");}
+            });
+
+            //link-modulemedia.com
+            $("a").click(function(event){
+                event.preventDefault();
+                //missing something----------------
+                window.alert(event.target.nodeName + '   triggered the event');
+                $("a").css('color','red');
+            });
+
+            //window resize dimensions
+            $(window).resize(function(){
+                $("#windowdimensions").text("Current width=" + $(window).width()+ " " +"Current Height=" +$(window).height() );
+            });
+
+            //textfield showing focus with background color change
+            $("#focus").focus(function(){ $("body").css('background','grey');});
+            $("#focus").focusout(function(){ $("body").css('background','white');});
+            
+           //Validating submit form
+            $("#myform").submit(function(event) {
+                event.preventDefault();
+                var name = $("#nameid").val().trim();
+                var email = $("#emailid").val().trim();
+                
+           if ((name == "")&&(email=="") )
+            {
+                window.alert("name and email field is required");
+               
+                $("#nameid").css('border-color','red');
+                $("#emailid").css('border-color','red');
+            }
+            else if(name=="")
+            {
+                window.alert("name field is required");
+                $("#nameid").css('border-color','red');
+                $("#emailid").css('border-color','green');
+            }
+            else if(email=="")
+            {
+               window.alert("email field is required");
+               $("#emailid").css('border-color','red');
+               $("#nameid").css('border-color','green');
+            }
+            else{
+                var emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\b/;
+                    if ( !emailPattern.test(email) ) {
+				    $("#emailid").next().text("Must be a valid email address.");
+				    } 
+                    else {
+				    $("#emailid").next().text("*");
+                    $("#nameid").css('border-color','green');
+                    $("#emailid").css('border-color','green');
+			        }
+                }
+        });
+            
+
+            
+
+
+        });
+    </script>
+</head>
+<body>
+    <h1>Jquery Event Handling Demo</h1>
+    <h6>Using 'Click' Method click button below</h6>
+    <button id="mybutton1">Click Me</button><br>
+    <h6>Using 'bind' Method click button below</h6>
+    <button id="mybutton2">Click Me</button><br>
+    <h6>Using 'On' Method click button below</h6>
+    <button id="mybutton3">Click Me</button><br>
+    <section>
+        <h6>Using 'On' Method click any of the two buttons below</h6>
+        <button id="mybutton4">Click Me</button> 
+        <button id="mybutton5">Click Me</button> 
+    </section><br>
+    <strong>Textbox showing focus  </strong>
+    <input type="text" value="click please" id="focus" style="margin-left:20px ;"><br><br>
+    <strong>Media Link  </strong>
+    <a href="http://www.modulemedia.com">modulemedia.com</a><br><br>
+    <div id="windowdimensions">THe dimension of the window is diplayed here when you resize</div><br>
+    <form id="myform" method="get">
+        <strong>---Form Below----</strong><br>
+        <strong>Name :  </strong>
+        <input type="text" id="nameid"><span style="color: red;margin-left: .5em;">*</span><br><br>
+        <strong>Email : </strong>
+        <input type="text" id="emailid"><span style="color: red;margin-left: .5em;"an>*</span><br><br>
+        <input type="submit" id="submitBtn">
+    </form><br>
+    <strong>Handling Events on div tag like mouse over,mouse leaves and click and displaying status in the span tag below</strong>
+    <span id="events" style="background-color:burlywood"></span>
+    <div id="divid" style="width:400px;height:400px; background-color:silver;padding-left: 50px;"><br><br><br><br>
+        This is my div tag <br>
+    </div>
+   
+</body>
+</html>
